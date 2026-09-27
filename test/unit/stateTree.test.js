@@ -4,16 +4,19 @@ const assert = require('node:assert/strict');
 const { MODELS } = require('../../lib/models');
 const { buildObjects } = require('../../lib/stateTree');
 
-// Role → [type, read, write]. Every role the tree may use, checked against ioBroker's stateroles.
+// Role → [types, read, write]. Every role the tree may use, checked against ioBroker's stateroles.
 const ROLES = {
-    'info.model': ['string', true, false],
-    'info.firmware': ['string', true, false],
-    'value.temperature': ['number', true, false],
-    'switch.power': ['boolean', true, true],
-    'media.input': ['number', true, true],
-    'level.volume': ['number', true, true],
-    'media.mute': ['boolean', true, true],
-    indicator: ['boolean', true, false],
+    'info.model': [['string'], true, false],
+    'info.firmware': [['string'], true, false],
+    'value.temperature': [['number'], true, false],
+    'switch.power': [['boolean'], true, true],
+    'switch.enable': [['boolean'], true, true],
+    'media.input': [['number', 'string'], true, true],
+    'level.volume': [['number'], true, true],
+    level: [['number'], true, true],
+    'media.mute': [['boolean'], true, true],
+    indicator: [['boolean'], true, false],
+    button: [['boolean'], false, true],
 };
 
 // A synthetic matrix with every optional feature, so the audit covers all code paths.
@@ -74,8 +77,8 @@ for (const [key, def] of Object.entries(DEFS)) {
         it('uses valid roles matching type and read/write', () => {
             for (const { _id, type, common } of objects.filter(o => o.type === 'state')) {
                 assert.ok(ROLES[common.role], `${_id}: unexpected role ${common.role}`);
-                const [roleType, read, write] = ROLES[common.role];
-                assert.equal(common.type, roleType, `${_id} type`);
+                const [types, read, write] = ROLES[common.role];
+                assert.ok(types.includes(common.type), `${_id} type ${common.type}`);
                 assert.equal(common.read, read, `${_id} read`);
                 assert.equal(common.write, write, `${_id} write`);
                 assert.equal(typeof common.name, 'string', `${_id} name`);
@@ -92,7 +95,7 @@ for (const [key, def] of Object.entries(DEFS)) {
         });
 
         it('numbers inputs from 1 and lists them as source states', () => {
-            const source = objects.find(o => o.common.role === 'media.input');
+            const source = objects.find(o => o.common.role === 'media.input' && o.common.type === 'number');
             assert.deepEqual(
                 Object.keys(source.common.states).map(Number),
                 def.inputs.map((_, i) => i + 1),
@@ -104,12 +107,16 @@ for (const [key, def] of Object.entries(DEFS)) {
 }
 
 describe('State tree layout', () => {
-    it('SW-510W: one active input, global volume, per-input signal, no output channels', () => {
+    it('SW-510W: active input plus matrix routes, HDCP on wired inputs only', () => {
         const ids = buildObjects(MODELS['sw-510w']).map(o => o._id);
-        assert.ok(ids.includes('control.source'));
-        assert.ok(ids.includes('control.volume'));
-        assert.ok(ids.includes('inputs.5.signal'));
-        assert.ok(!ids.some(id => id.startsWith('outputs')));
+        for (const id of ['control.source', 'control.volume', 'control.display', 'control.matrixMode']) {
+            assert.ok(ids.includes(id), id);
+        }
+        for (const id of ['outputs.1.source', 'outputs.2.source', 'inputs.5.signal', 'inputs.4.hdcp']) {
+            assert.ok(ids.includes(id), id);
+        }
+        assert.ok(!ids.includes('inputs.5.hdcp'));
+        assert.ok(ids.includes('commands.reboot'));
     });
 
     it('matrix: a source per output and no global source', () => {
@@ -125,7 +132,7 @@ describe('Model definitions', () => {
     for (const [key, def] of Object.entries(MODELS)) {
         it(`${key} is complete`, () => {
             assert.ok(['ascii', 'colon', 'jsonrpc'].includes(def.dialect));
-            assert.ok(['switcher', 'matrix'].includes(def.routing));
+            assert.ok(['switcher', 'matrix', 'both'].includes(def.routing));
             assert.equal(typeof def.name, 'string');
             assert.equal(typeof def.verified, 'boolean');
             assert.ok(Number.isInteger(def.port));

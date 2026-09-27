@@ -49,3 +49,6 @@ docs/
 
 # @iobroker/dev-server local profile (local only)
 .dev-server/
+
+# Claude Code local settings (local only)
+.claude/settings.local.json

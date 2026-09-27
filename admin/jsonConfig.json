@@ -26,7 +26,12 @@
         "model": {
             "type": "select",
             "label": "Device model",
-            "options": [{ "value": "sw-510w", "label": "AT-UHD-SW-510W" }],
+            "options": [
+                {
+                    "value": "sw-510w",
+                    "label": "AT-UHD-SW-510W"
+                }
+            ],
             "newLine": true,
             "xs": 12,
             "sm": 12,
@@ -51,6 +56,20 @@
             "help": "Only used if the device asks for a telnet login. Empty means the Atlona default password.",
             "repeat": false,
             "visible": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "pollingInterval": {
+            "type": "number",
+            "label": "Polling interval (ms)",
+            "help": "How often the device status is read. 15000 to 3600000 ms.",
+            "min": 15000,
+            "max": 3600000,
+            "step": 1000,
+            "newLine": true,
             "xs": 12,
             "sm": 12,
             "md": 6,

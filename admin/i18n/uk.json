@@ -7,5 +7,7 @@
     "Username": "Ім'я користувача",
     "Password": "Пароль",
     "Only used if the device asks for a telnet login. Empty means admin.": "Використовується, лише якщо пристрій запитує вхід через Telnet. Порожнє значення означає admin.",
-    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "Використовується, лише якщо пристрій запитує вхід через Telnet. Порожнє значення означає стандартний пароль Atlona."
+    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "Використовується, лише якщо пристрій запитує вхід через Telnet. Порожнє значення означає стандартний пароль Atlona.",
+    "Polling interval (ms)": "Інтервал опитування (мс)",
+    "How often the device status is read. 15000 to 3600000 ms.": "Як часто зчитується стан пристрою. Від 15000 до 3600000 мс."
 }

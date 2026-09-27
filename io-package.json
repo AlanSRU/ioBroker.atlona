@@ -80,7 +80,8 @@
         "port": 23,
         "model": "sw-510w",
         "username": "admin",
-        "password": ""
+        "password": "",
+        "pollingInterval": 30000
     },
     "protectedNative": ["username", "password"],
     "encryptedNative": ["password"],

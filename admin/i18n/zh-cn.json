@@ -7,5 +7,7 @@
     "Username": "用户名",
     "Password": "密码",
     "Only used if the device asks for a telnet login. Empty means admin.": "仅在设备要求 Telnet 登录时使用。留空表示 admin。",
-    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "仅在设备要求 Telnet 登录时使用。留空表示 Atlona 默认密码。"
+    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "仅在设备要求 Telnet 登录时使用。留空表示 Atlona 默认密码。",
+    "Polling interval (ms)": "轮询间隔（毫秒）",
+    "How often the device status is read. 15000 to 3600000 ms.": "读取设备状态的频率。15000 至 3600000 毫秒。"
 }
