@@ -58,7 +58,7 @@ the telnet connection straight away and the adapter logs "Device closed the conn
 
 | State | Description |
 |---|---|
-| `info.connection` | The telnet session is open and logged in |
+| `info.connection` | The connection to the device (WebSocket or telnet) is open and answering |
 | `info.model`, `info.firmware` | Device model and firmware version |
 | `info.temperature` | Internal temperature (models that report it) |
 | `control.source` | Active input (switchers) |

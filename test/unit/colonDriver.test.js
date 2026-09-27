@@ -246,6 +246,31 @@ describe('Colon dialect: commands', () => {
         );
     });
 
+    it('acts on buttons only when true is written', async () => {
+        assert.deepEqual((await run('commands.reboot', false)).sent, []);
+        assert.deepEqual((await run('commands.byodKick', false)).sent, []);
+        assert.deepEqual((await run('commands.byodKick', true)).sent, ['Display:BYOD:Kick']);
+    });
+
+    it('rejects blank, null and boolean numbers instead of treating them as 0', async () => {
+        for (const val of [null, '', '  ', false, true, 'loud', undefined]) {
+            await assert.rejects(run('control.volume', val), RangeError, `volume ${JSON.stringify(val)}`);
+            await assert.rejects(run('control.matrixMode', val), RangeError, `matrixMode ${JSON.stringify(val)}`);
+            await assert.rejects(run('control.source', val), RangeError, `source ${JSON.stringify(val)}`);
+        }
+        assert.deepEqual((await run('control.volume', '-30')).sent, ['Audio:Volume:Set -30']);
+        assert.deepEqual((await run('control.matrixMode', 0)).sent, ['Display:Matrix:Mode:Set 0']);
+    });
+
+    it('accepts only real true/false values for switches', async () => {
+        assert.deepEqual((await run('control.muteHdmi', 'false')).sent, ['Audio:Mute:Set hdmi false']);
+        assert.deepEqual((await run('control.display', 1)).sent, ['Display:Minimal:Set 1']);
+        for (const val of [null, '', 'yes', 2, undefined]) {
+            await assert.rejects(run('control.muteHdmi', val), RangeError, `mute ${JSON.stringify(val)}`);
+            await assert.rejects(run('inputs.1.hdcp', val), RangeError, `hdcp ${JSON.stringify(val)}`);
+        }
+    });
+
     it('refuses the wireless input HDCP state and unknown ids', async () => {
         await assert.rejects(run('inputs.5.hdcp', true), /not writable/);
         await assert.rejects(run('info.model', 'x'), /not writable/);
