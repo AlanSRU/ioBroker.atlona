@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# IDE settings
+.idea/
+.vscode/*
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# ioBroker specific
+iobroker-data/
+.commitinfo
+
+# npm pack output
+*.tgz
+
+# Local development notes (not part of the repo)
+CLAUDE.md
+MEMORY.md
+
+# Vendor API references (local only)
+docs/
+
+# adapter pre-release review marker (local only)
+.review/
+
+# @iobroker/dev-server local profile (local only)
+.dev-server/

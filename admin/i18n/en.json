@@ -1,0 +1,11 @@
+{
+    "Device address": "Device address",
+    "IP address or host name of the Atlona device": "IP address or host name of the Atlona device",
+    "Telnet port": "Telnet port",
+    "Device model": "Device model",
+    "AT-UHD-SW-510W": "AT-UHD-SW-510W",
+    "Username": "Username",
+    "Password": "Password",
+    "Only used if the device asks for a telnet login. Empty means admin.": "Only used if the device asks for a telnet login. Empty means admin.",
+    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "Only used if the device asks for a telnet login. Empty means the Atlona default password."
+}

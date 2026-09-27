@@ -1,0 +1,11 @@
+{
+    "Device address": "设备地址",
+    "IP address or host name of the Atlona device": "Atlona 设备的 IP 地址或主机名",
+    "Telnet port": "Telnet 端口",
+    "Device model": "设备型号",
+    "AT-UHD-SW-510W": "AT-UHD-SW-510W",
+    "Username": "用户名",
+    "Password": "密码",
+    "Only used if the device asks for a telnet login. Empty means admin.": "仅在设备要求 Telnet 登录时使用。留空表示 admin。",
+    "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "仅在设备要求 Telnet 登录时使用。留空表示 Atlona 默认密码。"
+}

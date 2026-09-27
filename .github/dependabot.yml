@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: cron
+      cron: "17 6 9 * *"
+    open-pull-requests-limit: 15
+    cooldown:
+      default-days: 7
+    ignore:
+      # @types/node major versions are pinned to the adapter's minimum supported
+      # Node.js version (see package.json engines). Only patch/minor bumps wanted.
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: cron
+      cron: "43 8 21 * *"
+    open-pull-requests-limit: 15
+    cooldown:
+      default-days: 7

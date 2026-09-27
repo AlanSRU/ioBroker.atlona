@@ -1,0 +1,67 @@
+{
+  "name": "iobroker.atlona",
+  "version": "0.0.1",
+  "description": "ioBroker adapter for Atlona AV switchers, matrices, scalers and amplifiers",
+  "author": {
+    "name": "Alan Paris",
+    "email": "alan.paris@scottish.rugby"
+  },
+  "contributors": [
+    {
+      "name": "Alan Paris",
+      "email": "alan.paris@scottish.rugby"
+    }
+  ],
+  "homepage": "https://github.com/AlanSRU/ioBroker.atlona",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "atlona",
+    "hdmi switcher",
+    "hdmi matrix",
+    "scaler",
+    "amplifier",
+    "av control",
+    "telnet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlanSRU/ioBroker.atlona.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AlanSRU/ioBroker.atlona/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.4.3"
+  },
+  "devDependencies": {
+    "@alcalzone/release-script": "^5.2.1",
+    "@alcalzone/release-script-plugin-iobroker": "^5.2.0",
+    "@alcalzone/release-script-plugin-license": "^5.2.2",
+    "@iobroker/adapter-dev": "^1.5.0",
+    "@iobroker/eslint-config": "^2.3.4",
+    "@iobroker/testing": "^6.2.2",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/node": "^22"
+  },
+  "main": "main.js",
+  "files": [
+    "admin/",
+    "lib/",
+    "main.js",
+    "io-package.json",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "npm run test:unit && npm run test:package",
+    "test:unit": "mocha test/unit --exit",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha test/integration --exit",
+    "lint": "eslint .",
+    "translate": "translate-adapter",
+    "release": "release-script"
+  }
+}

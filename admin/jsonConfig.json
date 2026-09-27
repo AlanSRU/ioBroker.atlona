@@ -1,0 +1,61 @@
+{
+    "i18n": true,
+    "type": "panel",
+    "items": {
+        "host": {
+            "type": "text",
+            "label": "Device address",
+            "help": "IP address or host name of the Atlona device",
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "port": {
+            "type": "number",
+            "label": "Telnet port",
+            "min": 1,
+            "max": 65535,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 2,
+            "xl": 2
+        },
+        "model": {
+            "type": "select",
+            "label": "Device model",
+            "options": [{ "value": "sw-510w", "label": "AT-UHD-SW-510W" }],
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "username": {
+            "type": "text",
+            "label": "Username",
+            "help": "Only used if the device asks for a telnet login. Empty means admin.",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "password": {
+            "type": "password",
+            "label": "Password",
+            "help": "Only used if the device asks for a telnet login. Empty means the Atlona default password.",
+            "repeat": false,
+            "visible": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        }
+    }
+}

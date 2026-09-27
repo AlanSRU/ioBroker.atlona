@@ -1,0 +1,8 @@
+# Configure which Dependabot updates may be merged automatically.
+# Major version bumps are intentionally excluded so they get a manual review.
+- match:
+    dependency_type: production
+    update_type: "semver:minor"
+- match:
+    dependency_type: development
+    update_type: "semver:minor"
