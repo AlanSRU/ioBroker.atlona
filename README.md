@@ -21,7 +21,7 @@ network. Atlona products use three control protocols; this adapter covers all th
 
 | Model | Protocol | Tested on hardware |
 |---|---|---|
-| AT-UHD-SW-510W | Colon/JSON | Partly, firmware 2.9.8: all status values, and every setting written back with its current value. Audio source, reboot and BYOD disconnect not yet tested |
+| AT-UHD-SW-510W | Colon/JSON | Yes, firmware 2.9.8: status, volume, mutes, display output, HDCP and input switching changed and restored on a real unit. Audio source unverified; reboot not tested |
 
 Anything not tested on hardware is built from Atlona's published API documents and the device's own help text. Reports from owners are welcome in the [issue tracker](https://github.com/AlanSRU/ioBroker.atlona/issues).
 
@@ -78,7 +78,7 @@ Inputs: 1 USB-C, 2 DisplayPort, 3 HDMI 1, 4 HDMI 2, 5 Wireless (BYOD). Outputs: 
 | `control.volume` | Volume, -80 to 0 dB |
 | `control.muteHdmi`, `control.muteAnalog` | Mute the HDMI or the analog audio output |
 | `control.display` | Display output on; off mutes audio and video |
-| `control.audioSource` | `digital` (audio from the video input) or `analog` (analog audio in) for the active input. Cannot be set while the wireless input is active |
+| `control.audioSource` | Write `digital` (audio from the video input) or `analog` (analog audio in) to set the active input's audio source. Not read back: the device's `Audio:GetSource` did not reflect the change in testing. Cannot be set while the wireless input is active. Unverified |
 | `control.matrixMode` | 0 off, 1 matrix, 2 matrix with static route |
 | `outputs.<n>.source` | Input shown on output `<n>`. Only settable while matrix mode is on |
 | `inputs.<n>.signal` | A signal is present on input `<n>` |

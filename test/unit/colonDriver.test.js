@@ -100,7 +100,6 @@ describe('Colon dialect: status poll', () => {
             'control.muteHdmi': false,
             'control.muteAnalog': false,
             'control.display': true,
-            'control.audioSource': 'digital',
             'control.matrixMode': 0,
             'outputs.1.source': 5,
             'outputs.2.source': 5,
