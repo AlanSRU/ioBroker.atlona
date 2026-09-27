@@ -1,6 +1,6 @@
 {
   "name": "iobroker.atlona",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "ioBroker adapter for Atlona AV switchers, matrices, scalers and amplifiers",
   "author": {
     "name": "Alan Paris",

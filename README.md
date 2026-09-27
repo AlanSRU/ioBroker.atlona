@@ -116,8 +116,7 @@ Scripts and visualisations that use the old ids need updating.
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.1.0 (2026-09-27)
 
 - AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`): input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet
 

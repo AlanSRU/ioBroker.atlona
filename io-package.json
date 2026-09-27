@@ -1,127 +1,143 @@
 {
-    "common": {
-        "name": "atlona",
-        "version": "0.0.1",
-        "news": {
-            "0.1.0": {
-                "en": "AT-UHD-SW-510W support (replaces iobroker.atlona-sw510w): input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet",
-                "de": "Unterstützung für AT-UHD-SW-510W (ersetzt iobroker.atlona-sw510w): Eingang, Lautstärke, Stummschaltung, Anzeige, HDCP, Matrixmodus und Routing, über WebSocket (Standard) oder Telnet",
-                "ru": "Поддержка AT-UHD-SW-510W (заменяет iobroker.atlona-sw510w): вход, громкость, отключение звука, дисплей, HDCP, матричный режим и маршрутизация через WebSocket (по умолчанию) или Telnet",
-                "pt": "Suporte ao AT-UHD-SW-510W (substitui o iobroker.atlona-sw510w): entrada, volume, mudo, display, HDCP, modo matriz e roteamento, via WebSocket (padrão) ou Telnet",
-                "nl": "Ondersteuning voor AT-UHD-SW-510W (vervangt iobroker.atlona-sw510w): ingang, volume, dempen, display, HDCP, matrixmodus en routering, via WebSocket (standaard) of Telnet",
-                "fr": "Prise en charge de l'AT-UHD-SW-510W (remplace iobroker.atlona-sw510w) : entrée, volume, sourdine, affichage, HDCP, mode matrice et routage, via WebSocket (par défaut) ou Telnet",
-                "it": "Supporto per AT-UHD-SW-510W (sostituisce iobroker.atlona-sw510w): ingresso, volume, muto, display, HDCP, modalità matrice e instradamento, tramite WebSocket (predefinito) o Telnet",
-                "es": "Compatibilidad con AT-UHD-SW-510W (sustituye a iobroker.atlona-sw510w): entrada, volumen, silencio, pantalla, HDCP, modo matriz y enrutamiento, por WebSocket (predeterminado) o Telnet",
-                "pl": "Obsługa AT-UHD-SW-510W (zastępuje iobroker.atlona-sw510w): wejście, głośność, wyciszenie, wyświetlacz, HDCP, tryb matrycy i routing, przez WebSocket (domyślnie) lub Telnet",
-                "uk": "Підтримка AT-UHD-SW-510W (замінює iobroker.atlona-sw510w): вхід, гучність, вимкнення звуку, дисплей, HDCP, матричний режим і маршрутизація через WebSocket (за замовчуванням) або Telnet",
-                "zh-cn": "支持 AT-UHD-SW-510W（取代 iobroker.atlona-sw510w）：输入、音量、静音、显示、HDCP、矩阵模式和路由，通过 WebSocket（默认）或 Telnet"
-            },
-            "0.0.1": {
-                "en": "Initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Первый выпуск",
-                "pt": "Lançamento inicial",
-                "nl": "Eerste release",
-                "fr": "Version initiale",
-                "it": "Rilascio iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "uk": "Перший випуск",
-                "zh-cn": "首次发布"
-            }
-        },
-        "titleLang": {
-            "en": "Atlona",
-            "de": "Atlona",
-            "ru": "Atlona",
-            "pt": "Atlona",
-            "nl": "Atlona",
-            "fr": "Atlona",
-            "it": "Atlona",
-            "es": "Atlona",
-            "pl": "Atlona",
-            "uk": "Atlona",
-            "zh-cn": "Atlona"
-        },
-        "desc": {
-            "en": "Control Atlona AV switchers, matrices, scalers and amplifiers",
-            "de": "Steuerung von Atlona AV-Umschaltern, Matrizen, Skalierern und Verstärkern",
-            "ru": "Управление AV-коммутаторами, матрицами, скейлерами и усилителями Atlona",
-            "pt": "Controle de switchers, matrizes, escaladores e amplificadores AV da Atlona",
-            "nl": "Bediening van Atlona AV-switchers, matrixen, scalers en versterkers",
-            "fr": "Contrôle des commutateurs, matrices, scalers et amplificateurs AV Atlona",
-            "it": "Controllo di switcher, matrici, scaler e amplificatori AV Atlona",
-            "es": "Control de conmutadores, matrices, escaladores y amplificadores AV de Atlona",
-            "pl": "Sterowanie przełącznikami AV, matrycami, skalerami i wzmacniaczami Atlona",
-            "uk": "Керування AV-комутаторами, матрицями, скейлерами та підсилювачами Atlona",
-            "zh-cn": "控制 Atlona 音视频切换器、矩阵、缩放器和功放"
-        },
-        "authors": ["Alan Paris <alan.paris@scottish.rugby>"],
-        "keywords": ["atlona", "hdmi", "switcher", "matrix", "scaler", "amplifier", "av", "telnet"],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-        },
-        "platform": "Javascript/Node.js",
-        "tier": 3,
-        "icon": "atlona.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/AlanSRU/ioBroker.atlona/main/admin/atlona.png",
-        "readme": "https://github.com/AlanSRU/ioBroker.atlona/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "multimedia",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "json"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=6.0.11"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=7.6.20"
-            }
-        ]
+  "common": {
+    "name": "atlona",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "AT-UHD-SW-510W support (replaces iobroker.atlona-sw510w): input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet",
+        "de": "Unterstützung für AT-UHD-SW-510W (ersetzt iobroker.atlona-sw510w): Eingang, Lautstärke, Stummschaltung, Anzeige, HDCP, Matrixmodus und Routing, über WebSocket (Standard) oder Telnet",
+        "ru": "Поддержка AT-UHD-SW-510W (заменяет iobroker.atlona-sw510w): вход, громкость, отключение звука, дисплей, HDCP, матричный режим и маршрутизация через WebSocket (по умолчанию) или Telnet",
+        "pt": "Suporte ao AT-UHD-SW-510W (substitui o iobroker.atlona-sw510w): entrada, volume, mudo, display, HDCP, modo matriz e roteamento, via WebSocket (padrão) ou Telnet",
+        "nl": "Ondersteuning voor AT-UHD-SW-510W (vervangt iobroker.atlona-sw510w): ingang, volume, dempen, display, HDCP, matrixmodus en routering, via WebSocket (standaard) of Telnet",
+        "fr": "Prise en charge de l'AT-UHD-SW-510W (remplace iobroker.atlona-sw510w) : entrée, volume, sourdine, affichage, HDCP, mode matrice et routage, via WebSocket (par défaut) ou Telnet",
+        "it": "Supporto per AT-UHD-SW-510W (sostituisce iobroker.atlona-sw510w): ingresso, volume, muto, display, HDCP, modalità matrice e instradamento, tramite WebSocket (predefinito) o Telnet",
+        "es": "Compatibilidad con AT-UHD-SW-510W (sustituye a iobroker.atlona-sw510w): entrada, volumen, silencio, pantalla, HDCP, modo matriz y enrutamiento, por WebSocket (predeterminado) o Telnet",
+        "pl": "Obsługa AT-UHD-SW-510W (zastępuje iobroker.atlona-sw510w): wejście, głośność, wyciszenie, wyświetlacz, HDCP, tryb matrycy i routing, przez WebSocket (domyślnie) lub Telnet",
+        "uk": "Підтримка AT-UHD-SW-510W (замінює iobroker.atlona-sw510w): вхід, гучність, вимкнення звуку, дисплей, HDCP, матричний режим і маршрутизація через WebSocket (за замовчуванням) або Telnet",
+        "zh-cn": "支持 AT-UHD-SW-510W（取代 iobroker.atlona-sw510w）：输入、音量、静音、显示、HDCP、矩阵模式和路由，通过 WebSocket（默认）或 Telnet"
+      },
+      "0.0.1": {
+        "en": "Initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Первый выпуск",
+        "pt": "Lançamento inicial",
+        "nl": "Eerste release",
+        "fr": "Version initiale",
+        "it": "Rilascio iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "uk": "Перший випуск",
+        "zh-cn": "首次发布"
+      }
     },
-    "native": {
-        "host": "",
-        "connection": "auto",
-        "port": 23,
-        "wsPort": 80,
-        "model": "sw-510w",
-        "username": "admin",
-        "password": "",
-        "pollingInterval": 30000
+    "titleLang": {
+      "en": "Atlona",
+      "de": "Atlona",
+      "ru": "Atlona",
+      "pt": "Atlona",
+      "nl": "Atlona",
+      "fr": "Atlona",
+      "it": "Atlona",
+      "es": "Atlona",
+      "pl": "Atlona",
+      "uk": "Atlona",
+      "zh-cn": "Atlona"
     },
-    "protectedNative": ["username", "password"],
-    "encryptedNative": ["password"],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Control Atlona AV switchers, matrices, scalers and amplifiers",
+      "de": "Steuerung von Atlona AV-Umschaltern, Matrizen, Skalierern und Verstärkern",
+      "ru": "Управление AV-коммутаторами, матрицами, скейлерами и усилителями Atlona",
+      "pt": "Controle de switchers, matrizes, escaladores e amplificadores AV da Atlona",
+      "nl": "Bediening van Atlona AV-switchers, matrixen, scalers en versterkers",
+      "fr": "Contrôle des commutateurs, matrices, scalers et amplificateurs AV Atlona",
+      "it": "Controllo di switcher, matrici, scaler e amplificatori AV Atlona",
+      "es": "Control de conmutadores, matrices, escaladores y amplificadores AV de Atlona",
+      "pl": "Sterowanie przełącznikami AV, matrycami, skalerami i wzmacniaczami Atlona",
+      "uk": "Керування AV-комутаторами, матрицями, скейлерами та підсилювачами Atlona",
+      "zh-cn": "控制 Atlona 音视频切换器、矩阵、缩放器和功放"
+    },
+    "authors": [
+      "Alan Paris <alan.paris@scottish.rugby>"
+    ],
+    "keywords": [
+      "atlona",
+      "hdmi",
+      "switcher",
+      "matrix",
+      "scaler",
+      "amplifier",
+      "av",
+      "telnet"
+    ],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "platform": "Javascript/Node.js",
+    "tier": 3,
+    "icon": "atlona.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/AlanSRU/ioBroker.atlona/main/admin/atlona.png",
+    "readme": "https://github.com/AlanSRU/ioBroker.atlona/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "multimedia",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.20"
+      }
     ]
+  },
+  "native": {
+    "host": "",
+    "connection": "auto",
+    "port": 23,
+    "wsPort": 80,
+    "model": "sw-510w",
+    "username": "admin",
+    "password": "",
+    "pollingInterval": 30000
+  },
+  "protectedNative": [
+    "username",
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
