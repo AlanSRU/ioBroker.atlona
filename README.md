@@ -119,8 +119,11 @@ Scripts and visualisations that use the old ids need updating.
 
 ### **WORK IN PROGRESS**
 
-- Initial version: telnet transport with login handling, command pacing and reconnect; model-driven state tree
-- AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`), over the JSON-RPC WebSocket (default) or telnet
+- AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`): input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet
+
+### 0.0.1 (2026-09-27)
+
+- Initial release
 
 ## License
 
