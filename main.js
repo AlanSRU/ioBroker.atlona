@@ -4,7 +4,8 @@ const utils = require('@iobroker/adapter-core');
 const { getModel } = require('./lib/models');
 const { buildObjects } = require('./lib/stateTree');
 const { TelnetClient } = require('./lib/transport/telnet');
-const { ColonDriver } = require('./lib/drivers/colon');
+const { WsClient } = require('./lib/transport/ws');
+const { ColonDriver, TelnetLink, WsLink } = require('./lib/drivers/colon');
 
 // Objects from io-package.json instanceObjects, never removed by the model cleanup
 const INSTANCE_OBJECTS = new Set(['info', 'info.connection']);
@@ -51,35 +52,43 @@ class Atlona extends utils.Adapter {
         await this.setState('info.model', this.model.name, true);
         this.subscribeStates('*');
 
-        this.transport = new TelnetClient({
-            host: config.host,
-            port: config.port,
-            username: config.username,
-            password: config.password,
-            timers: {
-                setTimeout: (fn, ms) => this.setTimeout(fn, ms),
-                clearTimeout: timer => this.clearTimeout(timer),
-            },
-            log: this.log,
-        });
+        const timers = {
+            setTimeout: (fn, ms) => this.setTimeout(fn, ms),
+            clearTimeout: timer => this.clearTimeout(timer),
+        };
+        let link;
+        if (config.connection === 'websocket') {
+            this.transport = new WsClient({ host: config.host, port: config.port, timers, log: this.log });
+            link = new WsLink(this.transport);
+        } else {
+            this.transport = new TelnetClient({
+                host: config.host,
+                port: config.port,
+                username: config.username,
+                password: config.password,
+                timers,
+                log: this.log,
+            });
+            link = new TelnetLink(this.transport, this.log);
+        }
         const Driver = DRIVERS[this.model.dialect];
         this.driver = Driver
-            ? new Driver(this.model, this.transport, this.log, updates => void this.applyUpdates(updates))
+            ? new Driver(this.model, link, this.log, updates => void this.applyUpdates(updates))
             : null;
         if (!this.driver) {
             this.log.warn(`The ${this.model.dialect} dialect is not implemented yet; only the connection is monitored`);
         }
         this.transport.on('ready', () => this.onConnected(config));
         this.transport.on('disconnected', (reason, wasReady) => this.onDisconnected(config, reason, wasReady));
-        this.log.info(`Connecting to ${this.model.name} at ${config.host}:${config.port}`);
+        this.log.info(`Connecting to ${this.model.name} at ${config.host}:${config.port} (${config.connection})`);
         this.transport.start();
     }
 
     /**
      * Validates the instance config. Logs an error and returns null if the adapter cannot run.
      *
-     * @returns {{host: string, port: number, model: string, username: string, password: string,
-     *   pollingInterval: number} | null} normalised config
+     * @returns {{host: string, port: number, model: string, connection: 'telnet' | 'websocket',
+     *   username: string, password: string, pollingInterval: number} | null} normalised config
      */
     readConfig() {
         const host = String(this.config.host ?? '').trim();
@@ -92,12 +101,26 @@ class Atlona extends utils.Adapter {
             this.log.error(`Unknown device model "${model}". Select a model in the instance settings.`);
             return null;
         }
-        const port = Number(this.config.port);
+        const def = getModel(model);
+        // 'auto' (default): the WebSocket where the model has one (several clients, pushed events), else telnet
+        const wanted = ['telnet', 'websocket'].includes(this.config.connection) ? this.config.connection : 'auto';
+        let connection = wanted === 'auto' ? (def.wsPort ? 'websocket' : 'telnet') : wanted;
+        if (connection === 'websocket' && !def.wsPort) {
+            this.log.warn(`${def.name} has no WebSocket interface; using telnet`);
+            connection = 'telnet';
+        }
+        const port = Number(connection === 'websocket' ? this.config.wsPort : this.config.port);
         const interval = Number(this.config.pollingInterval);
         return {
             host,
             model,
-            port: Number.isInteger(port) && port >= 1 && port <= 65535 ? port : getModel(model).port,
+            connection,
+            port:
+                Number.isInteger(port) && port >= 1 && port <= 65535
+                    ? port
+                    : connection === 'websocket'
+                      ? def.wsPort
+                      : def.port,
             username: String(this.config.username ?? '').trim() || 'admin',
             password: String(this.config.password ?? '') || 'Atlona',
             pollingInterval: Number.isFinite(interval)

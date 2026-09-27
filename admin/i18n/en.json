@@ -9,5 +9,11 @@
     "Only used if the device asks for a telnet login. Empty means admin.": "Only used if the device asks for a telnet login. Empty means admin.",
     "Only used if the device asks for a telnet login. Empty means the Atlona default password.": "Only used if the device asks for a telnet login. Empty means the Atlona default password.",
     "Polling interval (ms)": "Polling interval (ms)",
-    "How often the device status is read. 15000 to 3600000 ms.": "How often the device status is read. 15000 to 3600000 ms."
+    "How often the device status is read. 15000 to 3600000 ms.": "How often the device status is read. 15000 to 3600000 ms.",
+    "Connection": "Connection",
+    "Telnet": "Telnet",
+    "WebSocket (JSON-RPC)": "WebSocket (JSON-RPC)",
+    "WebSocket port": "WebSocket port",
+    "Automatic (recommended)": "Automatic (recommended)",
+    "Automatic uses the WebSocket where the model has one (AT-UHD-SW-510W: several clients at once, instant updates), otherwise telnet.": "Automatic uses the WebSocket where the model has one (AT-UHD-SW-510W: several clients at once, instant updates), otherwise telnet."
 }

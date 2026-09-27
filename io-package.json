@@ -77,7 +77,9 @@
     },
     "native": {
         "host": "",
+        "connection": "auto",
         "port": 23,
+        "wsPort": 80,
         "model": "sw-510w",
         "username": "admin",
         "password": "",

@@ -12,7 +12,7 @@ network. Atlona products use three control protocols; this adapter covers all th
 | Protocol | Transport | Example models |
 |---|---|---|
 | ASCII | Telnet (TCP 23) | Omega, UHD-PRO3, HDR-H2H, Opus, Juno, UHD/HDR-SW, CLSO, GAIN |
-| Colon/JSON | Telnet (TCP 23) | AT-UHD-SW-510W, AT-OME-MS52W |
+| Colon/JSON | Telnet (TCP 23), or JSON-RPC WebSocket (`ws://<ip>/API`) | AT-UHD-SW-510W, AT-OME-MS52W |
 | JSON-RPC 2.0 | WebSocket (`ws://<ip>/ws`) | AT-PRO5-MX810, AT-OME-CS31-SA |
 
 **Status: early development.** The AT-UHD-SW-510W is supported; further models follow.
@@ -21,7 +21,7 @@ network. Atlona products use three control protocols; this adapter covers all th
 
 | Model | Protocol | Tested on hardware |
 |---|---|---|
-| AT-UHD-SW-510W | Colon/JSON | Yes, firmware 2.9.8: status, volume, mutes, display output, HDCP and input switching changed and restored on a real unit. Audio source unverified; reboot not tested |
+| AT-UHD-SW-510W | Colon/JSON (WebSocket or telnet) | Yes, firmware 2.9.8, over both connections: status, volume, both mutes, display output, HDCP, input switching, matrix mode and routes changed and restored on a real unit. Audio source unverified; reboot not tested |
 
 Anything not tested on hardware is built from Atlona's published API documents and the device's own help text. Reports from owners are welcome in the [issue tracker](https://github.com/AlanSRU/ioBroker.atlona/issues).
 
@@ -36,20 +36,23 @@ Anything not tested on hardware is built from Atlona's published API documents a
 | Option | Default | Description |
 |---|---|---|
 | Device address | | IP address or host name of the device |
+| Connection | Automatic | Automatic uses the WebSocket where the model has one (AT-UHD-SW-510W), otherwise telnet. Telnet or WebSocket can also be chosen explicitly |
 | Telnet port | `23` | TCP port of the telnet control interface |
+| WebSocket port | `80` | HTTP port of the JSON-RPC WebSocket (`ws://<ip>:<port>/API`) |
 | Device model | AT-UHD-SW-510W | The connected model |
-| Username | `admin` | Sent only if the device asks for a telnet login |
-| Password | (Atlona default) | Sent only if the device asks for a telnet login. Stored encrypted |
+| Username | `admin` | Sent only if the device asks for a telnet login (telnet only) |
+| Password | (Atlona default) | Sent only if the device asks for a telnet login (telnet only). Stored encrypted |
 | Polling interval | `30000` | How often the status is read, in ms (15000 to 3600000) |
 
-The adapter keeps one telnet session open and sends at most one command every 500 ms. Atlona devices
-allow only a few simultaneous telnet sessions and answer `Full Connections` when all are taken, so close
-other telnet clients if the adapter reports that.
+The adapter keeps one session open and sends at most one command every 500 ms. Atlona devices allow only
+a few simultaneous telnet sessions (the AT-UHD-SW-510W only one) and answer `Full Connections` when all are
+taken, so close other telnet clients if the adapter reports that. The AT-UHD-SW-510W's WebSocket accepts
+several clients at once, answers faster, and pushes routing changes immediately; it is used by default.
 
 At startup the adapter only queries the device. It never changes inputs, volume or power by itself.
 
 If the device has an **IP whitelist** for telnet, add the ioBroker host to it. Otherwise the device closes
-the connection straight away and the adapter logs "Device closed the connection straight away".
+the telnet connection straight away and the adapter logs "Device closed the connection straight away".
 
 ## States
 
@@ -78,10 +81,10 @@ Inputs: 1 USB-C, 2 DisplayPort, 3 HDMI 1, 4 HDMI 2, 5 Wireless (BYOD). Outputs: 
 | `control.volume` | Volume, -80 to 0 dB |
 | `control.muteHdmi`, `control.muteAnalog` | Mute the HDMI or the analog audio output |
 | `control.display` | Display output on; off mutes audio and video |
-| `control.audioSource` | Write `digital` (audio from the video input) or `analog` (analog audio in) to set the active input's audio source. Not read back: the device's `Audio:GetSource` did not reflect the change in testing. Cannot be set while the wireless input is active. Unverified |
+| `control.audioSource` | Write `digital` (audio from the video input) or `analog` (analog audio in) to set the active input's audio source. Telnet connection only. Not read back: the device's `Audio:GetSource` did not reflect the change in testing. Cannot be set while the wireless input is active. Unverified |
 | `control.matrixMode` | 0 off, 1 matrix, 2 matrix with static route |
 | `outputs.<n>.source` | Input shown on output `<n>`. Only settable while matrix mode is on |
-| `inputs.<n>.signal` | A signal is present on input `<n>` |
+| `inputs.<n>.signal` | A signal is present on input `<n>`. Over the WebSocket, the wireless input's signal is taken from the device's change notifications only, because its status query reports the wireless input as active with no client connected |
 | `inputs.<n>.hdcp` | HDCP enabled on wired input `<n>` (1 to 4) |
 | `commands.reboot`, `commands.byodKick` | Reboot the device; disconnect all wireless clients |
 
@@ -90,8 +93,10 @@ read at the polling interval.
 
 #### Moving from `iobroker.atlona-sw510w`
 
-This adapter replaces `atlona-sw510w`. The device accepts only one telnet client, so stop the old instance
-before starting this one. State ids have changed, and inputs and outputs are now numbered from 1:
+This adapter replaces `atlona-sw510w`. With the default WebSocket connection both adapters can run at the
+same time, so scripts can be moved over one by one. With a telnet connection, stop the old instance first:
+the device accepts only one telnet client. State ids have changed, and inputs and outputs are now numbered
+from 1:
 
 | `atlona-sw510w` | `atlona` |
 |---|---|
@@ -115,7 +120,7 @@ Scripts and visualisations that use the old ids need updating.
 ### **WORK IN PROGRESS**
 
 - Initial version: telnet transport with login handling, command pacing and reconnect; model-driven state tree
-- AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`)
+- AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`), over the JSON-RPC WebSocket (default) or telnet
 
 ## License
 

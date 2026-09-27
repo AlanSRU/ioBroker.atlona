@@ -170,8 +170,9 @@ Parser rules that come straight from the docs:
 2. **Colon driver.** Port SW-510W (+MS52W) with the §6 fixes. This comes first because the SW-510W
    is the only test hardware (decided 2026-09-27), so it proves the shared transport, state tree and
    release pipeline on a real device. → verify on the SW-510W; old adapter can then be deprecated.
-   **2026-09-27:** driver done over telnet. Polls fw 2.9.8 correctly; no-op Sets verified. Still to do: real (state-changing)
-   Set tests with the user present, MS52W def, and the first release.
+   **2026-09-27:** done over the JSON-RPC WebSocket (`ws://<ip>/API`, default) and telnet. Real Sets verified on fw 2.9.8.
+   The WebSocket is preferred: several clients, pushed events, fast replies. REST reads/Sets are mapped in
+   `docs/sw-510w-json.txt` but not built (no push). Still to do: MS52W def and the first release.
 3. **ASCII driver, first families.** Omega (PS62/MS42), UHD/HDR-SW-5x, GAIN-60. These are the
    families with the best cross-checked sources. → verify: parsers unit-tested against doc examples.
    Mark them unverified until tested on hardware.

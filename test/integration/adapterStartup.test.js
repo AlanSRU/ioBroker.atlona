@@ -5,6 +5,8 @@ const net = require('node:net');
 const { once } = require('node:events');
 const { tests } = require('@iobroker/testing');
 const { BANNER, REPLIES } = require('../unit/fixtures/sw510w-telnet');
+const WS = require('../unit/fixtures/sw510w-ws');
+const { WebSocketServer } = require('ws');
 
 const call = (client, method, ...args) =>
     new Promise((resolve, reject) => client[method](...args, (err, result) => (err ? reject(err) : resolve(result))));
@@ -43,7 +45,7 @@ tests.integration(path.join(__dirname, '../..'), {
                 this.timeout(60000);
                 const harness = getHarness();
                 await harness.changeAdapterConfig('atlona', {
-                    native: { host: '127.0.0.1', port: server.address().port, model: 'sw-510w' },
+                    native: { host: '127.0.0.1', connection: 'telnet', port: server.address().port, model: 'sw-510w' },
                 });
                 await harness.startAdapterAndWait();
 
@@ -71,6 +73,69 @@ tests.integration(path.join(__dirname, '../..'), {
                     }
                 }
                 const sets = received.filter(cmd => /:Set|SetSource|Restart|Kick/i.test(cmd));
+                if (sets.length) {
+                    throw new Error(`The adapter sent commands at startup: ${sets.join(', ')}`);
+                }
+            });
+        });
+
+        suite('Connection to a simulated SW-510W over WebSocket', getHarness => {
+            let server;
+            let received;
+
+            before(async () => {
+                received = [];
+                // Answers from the JSON-RPC replies captured on a real SW-510W (ws://<ip>/API)
+                server = new WebSocketServer({ port: 0, host: '127.0.0.1', path: '/API' });
+                await once(server, 'listening');
+                server.on('connection', socket => {
+                    socket.on('message', data => {
+                        const req = JSON.parse(String(data));
+                        received.push(req.method);
+                        socket.send(JSON.stringify(WS.reply(req)));
+                    });
+                });
+            });
+
+            after(() => server.close());
+
+            it('connects over WebSocket and fills the state tree', async function () {
+                this.timeout(60000);
+                const harness = getHarness();
+                await harness.changeAdapterConfig('atlona', {
+                    native: {
+                        host: '127.0.0.1',
+                        connection: 'auto', // the SW-510W default: WebSocket
+                        wsPort: server.address().port,
+                        model: 'sw-510w',
+                    },
+                });
+                await harness.startAdapterAndWait();
+
+                const read = id => call(harness.states, 'getState', `atlona.0.${id}`);
+                let temperature = null;
+                for (let i = 0; i < 80 && temperature?.val !== 56; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 250));
+                    temperature = await read('info.temperature');
+                }
+                const expected = {
+                    'info.connection': true,
+                    'info.model': 'AT-UHD-SW-510W',
+                    'info.firmware': '2.9.8 (MCU 1.1.41)',
+                    'info.temperature': 56,
+                    'control.source': 5,
+                    'control.volume': -20,
+                    'control.display': true,
+                    'inputs.2.signal': true,
+                    'outputs.1.source': 5,
+                };
+                for (const [id, val] of Object.entries(expected)) {
+                    const state = await read(id);
+                    if (state?.val !== val || state.ack !== true) {
+                        throw new Error(`${id} is ${JSON.stringify(state?.val)} (ack ${state?.ack}), expected ${val}`);
+                    }
+                }
+                const sets = received.filter(m => /:Set|SetSource|Restart|Kick/i.test(m));
                 if (sets.length) {
                     throw new Error(`The adapter sent commands at startup: ${sets.join(', ')}`);
                 }
