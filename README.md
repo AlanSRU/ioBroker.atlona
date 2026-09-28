@@ -23,8 +23,7 @@ tree, so scripts and visualisations work the same way across models:
 
 ## Status
 
-**Version 0.1.0.** The AT-UHD-SW-510W is fully supported and replaces the older
-`iobroker.atlona-sw510w` adapter. The other models follow in stages.
+**Version 0.1.0.** The AT-UHD-SW-510W is fully supported. The other models follow in stages.
 
 | Model | Status | Tested on hardware |
 |---|---|---|
@@ -114,27 +113,6 @@ Inputs: 1 USB-C, 2 DisplayPort, 3 HDMI 1, 4 HDMI 2, 5 Wireless (BYOD). Outputs: 
 Routes and input signals update immediately when the device reports a change; the rest is read at the
 polling interval.
 
-#### Moving from `iobroker.atlona-sw510w`
-
-This adapter replaces `atlona-sw510w`, which will be deprecated. With the default WebSocket connection both
-adapters can talk to the same device, but only one of them should control a room, so disable the old
-instance when the new one takes over. With a telnet connection the old instance must be stopped first,
-because the device accepts only one telnet client.
-
-State ids have changed, and **inputs and outputs are numbered from 1**, as on the device's labels. Add 1 to
-every input number a script or visualisation uses:
-
-| `atlona-sw510w` | `atlona` |
-|---|---|
-| `control.input` (0 to 4) | `control.source` (1 to 5) |
-| `control.mute.hdmi`, `control.mute.analog` | `control.muteHdmi`, `control.muteAnalog` |
-| `control.hdcp.input0` … `input3` | `inputs.1.hdcp` … `inputs.4.hdcp` |
-| `control.matrix.hdbasetOutput`, `control.matrix.hdmiOutput` (0 to 4) | `outputs.1.source`, `outputs.2.source` (1 to 5) |
-| `control.volume`, `control.display`, `control.matrixMode`, `control.audioSource` | same ids |
-| `commands.reboot`, `commands.byodKick` | same ids |
-| `commands.factoryReset` | removed |
-| (none) | `inputs.<n>.signal`, `info.temperature` (new) |
-
 ## Troubleshooting
 
 Set the instance's log level to `debug` to see every command and reply.
@@ -165,7 +143,7 @@ Set the instance's log level to `debug` to see every command and reply.
 -->
 ### 0.1.0 (2026-09-27)
 
-- AT-UHD-SW-510W support (replaces `iobroker.atlona-sw510w`): input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet
+- AT-UHD-SW-510W support: input, volume, mutes, display, HDCP, matrix mode and routing, over the WebSocket (default) or telnet
 
 ### 0.0.1 (2026-09-27)
 
